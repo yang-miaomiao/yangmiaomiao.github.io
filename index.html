@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #root {
+            width: 800px;
+            /* margin-top: 2%; */
+            position: absolute;
+            right: 10px;
+        }
+
+        #root div {
+            display: inline-block;
+            width: 70px;
+            margin: 5px 5px;
+            padding: 10px;
+            border: 1px solid rgb(150, 150, 150);
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        span {
+            font-size: 23px;
+            line-height: 30px;
+            color: rgb(51, 51, 51);
+        }
+
+        .start {
+            font-size: 23px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 60%;
+            left: 10%;
+            padding: 10px 20px;
+            border-radius: 3px;
+            background-color: rgb(233, 233, 233);
+        }
+
+        .start:active {
+            box-shadow: inset 0 3px 10px rgba(0, 0, 0, .125);
+        }
+
+        .readme {
+            position: absolute;
+            margin: 5% 1%;
+        }
+
+        .result {
+            position: absolute;
+            top: 60%;
+            left: 30%;
+        }
+
+        .result span {
+            font-size: 200px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <input type="button" value="开始读心术" class="start">
+    <div class="readme">
+        <h2>游戏规则</h1>
+            <h3>吉普赛人祖传的神奇读心术，它能测算出你的内心感应</h3>
+            <h4>在心里想一个两位数字，用这个数字减去它的十位与个位相加的和，记住表中对应的图形，然后按下开始读心术</h4>
+            <h4>例如：你选择了 23 ，则 23 - (2 + 3) = 18 ，读心术会找出这个图形</h4>
+    </div>
+    <div class="result">
+        <span></span>
+    </div>
+    <script>
+        let symbol = [
+            '♭', '※', 'ㄉ', '≥', '♃', 'ゆ', '∀', '♄', '＋', '*',
+            '«', 'ⅲ', '♇', '⇲', '§', '㎡', '⚅', '∪', '♙', 'へ',
+            '◡', 'Ⅹ', '∑', '◴', '✓', '๑', '╥', '㏑', '◫', '⚘',
+            '∴', '㏒', '☼', 'Д', 'ง', '╤', '▯', '☭', '₣', 'ㄞ',
+            '♆', '☣', 'ㄗ', '╬', '℃', '✄', '〒', '♡', '⇡', '⛈',
+            'が', '☆', '⚀', 'ㄛ', '$', '♘', '⚭', '⚥', 'ω', 'Ⅺ',
+            '⋚', 'ಥ', '皿', '⇵', '⚐', '✗', '◺', '<', '＞', '∥',
+            '⇳', 'Ⅳ', '⊕', '℉', '☾', '≌', '︽', '㏎', '⚝', '₰',
+            'ㄠ', '♖', '￥', '♬', '∬', '◊', '⚨', '✧', '∮', '＠',
+            '⚂', '～', 'ㄓ', 'ㄡ', '&', '⇤', '▢', '@', '¿', 'ఠ',
+            '℅',
+        ];
+        let root = document.getElementById('root');
+        let input = document.querySelector('.start');
+        let result = document.querySelector('.result span');
+
+        function render() {
+            let rannum = new Set();
+            while (rannum.size < 100) {
+                let num = Math.floor((Math.random() * 100) + 1);
+                rannum.add(num)
+            }
+            rannum = [...rannum];
+            root.innerHTML = "";
+            rannum.forEach(function (value, index, array) {
+                let block = document.createElement('div');
+                answer = (index + 1) % 9 ? symbol[value] : symbol[rannum[8]];
+                block.innerHTML = '<span>' + (index + 1) + '</span> <span>' + answer + '</span>';
+                root.appendChild(block);
+            });
+            result.innerHTML = symbol[rannum[8]];
+        }
+
+        document.addEventListener('DOMContentLoaded', render);
+
+        input.addEventListener('click', function () {
+            result.style.setProperty('display', 'inline');
+            setTimeout(function () { result.style.setProperty('display', 'none'); render(); }, 3000);
+        });
+
+    </script>
+</body>
+
+</html>
